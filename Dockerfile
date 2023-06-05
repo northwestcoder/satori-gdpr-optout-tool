@@ -11,7 +11,7 @@ RUN apt-get update -y \
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
   && curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list \
   && apt-get update \
-  && apt-get install -y --no-install-recommends --allow-unauthenticated msodbcsql17 mssql-tools
+  && apt-get install -y --no-install-recommends --allow-unauthenticated msodbcsql18 mssql-tools
 
 # Copy local code to the container image.
 ENV APP_HOME /app
