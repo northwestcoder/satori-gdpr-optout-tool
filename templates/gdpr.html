@@ -1,0 +1,421 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form method="post">
+
+  <table width="1100">
+
+
+    <tr>
+      <td class="tableleft">
+        &nbsp;
+      </td>
+      <td class="tableright">
+
+        <div align="left"> <img alt="logo" src="https://satoricyber.com/wp-content/uploads/LogoDark2.svg" />
+          <h2>Satori GDPR Opt-Out Tool</h2>
+
+          <img width="400" alt="eulogo" src="https://gdpr.eu/wp-content/themes/gdpr/images/logo-gdpr-eu.svg" /></br></br>
+        </div>
+
+        </br>
+
+        <font size="-1"><i>"The data subject shall have the right to obtain from the controller the erasure of personal</br>
+        data concerning him or her without undue delay and the controller shall</br>
+      have the obligation to erase personal data without undue delay..."</i></br></br></font>
+          <i>Citations:</i></br>
+          <ul>
+            <li><font size="-1">Article 17: <a href="https://gdpr.eu/article-17-right-to-be-forgotten/" target="_blank">https://gdpr.eu/article-17-right-to-be-forgotten</a></font></li>
+            <li><font size="-1">Recitals: <a href="https://gdpr.eu/Recital-65-Right-of-rectification-and-erasure" target="_blank">https://gdpr.eu/Recital-65-Right-of-rectification-and-erasure</a></font></li>
+          </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="tableleft">
+        &nbsp;
+      </td>
+      <td class="tableright">
+        <h3>Search for a customer record by email address</h3>
+</br>      </td>
+    </tr>
+
+
+
+    <tr>
+      <td class="tableleft">
+        <label>Email to find</label>
+      </td>
+      <td class="tableright">
+        <input type="text" id="email" name="email" value="" size="80" />
+      </td>
+    </tr>
+
+    <tr>
+      <td class="tableleft">&nbsp;</td>
+      <td class="tableinfo">
+</br></br>
+        <b>This process will attempt to find all locations for the above email</br>
+      and will generate a detailed report for review, including sql statements</br>
+     to run against all known data sources managed by the Satori platform.</b>
+      </br></br>      </td>
+    </tr>
+
+
+    <tr>
+      <td colspan="2">&nbsp;</td>
+    </tr>
+
+
+ <tr>
+      <td class="tableleft">
+        <label>&nbsp;</label>
+      </td>
+      <td class="tableright">
+               <i>The next four fields are required for connecting to the Satori Rest API using</br>your account info, see the <a href="https://app.satoricyber.com/docs/api" target="_blank">docs</a> for config info.</i>
+
+      </td>
+    </tr>
+
+
+    <tr>
+      <td class="tableleft">
+        <label>Satori Account ID</label>
+      </td>
+      <td class="tableright">
+        <input type="password" id="satori_account_id" name="satori_account_id" value="" size="80" style="color:grey;" />
+      </td>
+    </tr>
+
+    <tr>
+      <td class="tableleft">
+        <label>Satori Service ID</label>
+      </td>
+      <td class="tableright">
+        <input type="password" id="satori_serviceaccount_id" name="satori_serviceaccount_id" value="" size="80" style="color:grey;" />
+      </td>
+    </tr>
+
+    <tr>
+      <td class="tableleft">
+        <label>Satori Service Key</label>
+      </td>
+      <td class="tableright">
+        <input type="password" id="satori_serviceaccount_key" name="satori_serviceaccount_key" value="" size="80" style="color:grey;" />
+      </td>
+    </tr>
+
+    <tr>
+      <td class="tableleft">
+        <label>Satori API URL</label>
+      </td>
+      <td class="tableright">
+        <input type="text" id="apihost" name="apihost" value="app.satoricyber.com" size="80" style="color:grey;" />
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="2">&nbsp;</td>
+    </tr>
+
+ <tr>
+      <td class="tableleft">
+        <label>&nbsp;</label>
+      </td>
+      <td class="tableright">
+               <i>The next two fields are required for connecting to databases which use</br>Satori <a href="https://satoricyber.com/docs/data%20portal/#data-store-temporary-credentials" target="_blank">temp credentials</a> - e.g. Postgres, MSSQL, Redshift.
+               </i>
+
+      </td>
+    </tr>
+
+
+    <tr>
+      <td class="tableleft">
+        <label>Satori Username</label>
+      </td>
+      <td class="tableright">
+        <input type="text" id="satori_username" name="satori_username" value="" size="80" style="color:grey;" />
+      </td>
+    </tr>
+
+    <tr>
+      <td class="tableleft">
+        <label>Satori Password</label>
+      </td>
+      <td class="tableright">
+        <input type="password" id="satori_password" name="satori_password" value="" size="80" style="color:grey;" />
+      </td>
+    </tr>
+
+
+    <tr>
+      <td colspan="2">&nbsp;</td>
+    </tr>
+
+ <tr>
+      <td class="tableleft">
+        <label>&nbsp;</label>
+      </td>
+      <td class="tableright">
+               <i>The next three fields are required for connecting to Snowflake, if applicable.
+               </br>The Snowflake account field takes the form of [ACCOUNT].[REGION]
+               </br>Leave empty if not using Snowflake.
+               </i>
+
+      </td>
+    </tr>
+
+
+
+    <tr>
+      <td class="tableleft">
+        <label>Snowflake Username (if applicable)</label>
+      </td>
+      <td class="tableright">
+        <input type="text" id="snowflake_username" name="snowflake_username" value="" size="80" />
+      </td>
+    </tr>
+
+    <tr>
+      <td class="tableleft">
+        <label>Snowflake Password (if applicable)</label>
+      </td>
+      <td class="tableright">
+        <input type="password" id="snowflake_password" name="snowflake_password" value="" />
+      </td>
+    </tr>
+
+    <tr>
+      <td class="tableleft">
+        <label>Snowflake Account (if applicable)</label>
+      </td>
+      <td class="tableright">
+        <input type="text" id="snowflake_account" name="snowflake_account" value="" size="80" />
+      </td>
+    </tr>
+
+
+
+
+    <tr>
+      <td colspan="2">&nbsp;</td>
+    </tr>
+
+ <tr>
+      <td class="tableleft">
+        <label>&nbsp;</label>
+      </td>
+      <td class="tableright">
+               <i>The next three fields are required for connecting to CockroachDB, if applicable.
+               </br>Leave empty if not using CockroachDB.
+               </i>
+
+      </td>
+    </tr>
+
+
+
+    <tr>
+      <td class="tableleft">
+        <label>CockroachDB Username (if applicable)</label>
+      </td>
+      <td class="tableright">
+        <input type="text" id="cockroachdb_username" name="cockroachdb_username" value="" size="80" />
+      </td>
+    </tr>
+
+    <tr>
+      <td class="tableleft">
+        <label>CockroachDB Password (if applicable)</label>
+      </td>
+      <td class="tableright">
+        <input type="password" id="cockroachdb_password" name="cockroachdb_password" value="" />
+      </td>
+    </tr>
+
+    <tr>
+      <td class="tableleft">
+        <label>CockroachDB Cluster (if applicable)</label>
+      </td>
+      <td class="tableright">
+        <input type="text" id="cockroachdb_cluster" name="cockroachdb_cluster" value="" size="80" />
+      </td>
+    </tr>
+
+
+
+
+
+    <tr>
+      <td colspan="2">&nbsp;</td>
+    </tr>
+
+<tr>
+      <td class="tableleft">
+        <label>&nbsp;</label>
+      </td>
+      <td class="tableright">
+               <i>The next two fields are required for connecting to Athena, if applicable.
+               </br>Leave empty if not using Athena.
+               </i>
+
+      </td>
+    </tr>
+
+
+
+    <tr>
+      <td class="tableleft">
+        <label>Athena S3 Results Location (if applicable)</label>
+      </td>
+      <td class="tableright">
+        <input type="text" id="athena_results" name="athena_results" value="" size="80" />
+      </td>
+    </tr>
+
+    <tr>
+      <td class="tableleft">
+        <label>Athena Region (if applicable)</label>
+      </td>
+      <td class="tableright">
+        <input type="text" id="athena_region" name="athena_region" value="" size="80" />
+      </td>
+    </tr>
+
+
+    <tr>
+      <td class="tableleft">&nbsp;</td>
+      <td class="tableinfo">
+         </br></br>      <i>Any Pii found in your results might be masked by Satori</br>depending on your security settings</i>
+
+</td>
+    </tr>
+
+    <tr>
+      <td class="tableleft">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+      <td class="tableright">
+      </td>
+    </tr>
+
+    <tr>
+      <td class="tableleft">&nbsp;</td>
+      <td class="tableright">
+        <input id="findresults" name="findresults" onclick="document.getElementById('findresults').value='PLEASE WAIT';" type="submit" value="FIND ALL RESULTS"></br>
+      </td>
+    </tr>
+
+
+
+    <tr>
+      <td class="tableleft">
+        &nbsp;
+      </td>
+      <td class="tableright">
+        <h3>Search Results:</h3></br>
+        <i>This section will show datastore information for each and every instance of</br>an email address column, as well as any records returned that match the</br>above data-entered email.</i>
+      </td>
+    </tr>
+
+
+    <tr>
+      <td class="tableleft">
+        <h5>All locations containing an email address</h5>
+      </td>
+      <td class="tableright">
+        <h5>Results found or response from datastore</h5>
+      </td>
+    </tr>
+    
+
+    {% for key, value in result[0].items() %}
+
+
+
+    <tr>
+      <td class="tableleft">
+        <font size="-1"><b>{{ key.split("::")[0] }}</b>
+        </br>
+        <i>{{ key.split("::")[1] }}</i></font>
+      </td>
+
+      <td class="tableright">
+
+        <table>
+          <tr>
+            <td class="satoriresults">
+              <font size="-1"><b>Records Found:</b></br></br> <code>{{ value[0] }}</code></font>
+            </td>
+          </tr>
+          <tr>
+            <td class="satoriremediation">
+              <font size="-1"><b>Remediation:</b></br></br><code>{{ value[1] }}</code></font>
+            </td>
+          </tr>
+        </table>
+
+
+      </td>
+    </tr>
+
+    {% endfor %}
+
+
+   <tr>
+      <td class="tableleft">
+        &nbsp;
+      </td>
+      <td class="tableright">
+        <h3>All Queries per Datastore:</h3></br>
+                <i>For each datastore, this section will show <code>sql select queries</code> for each and</br>
+                every instance of an email address column, for exploratory purposes.</i>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="tableleft">
+        <h5>Datastore</h5>
+      </td>
+      <td class="tableright">
+        <h5>Queries</h5>
+      </td>
+    </tr>
+
+
+    {% for key, item in result[1].items() %}
+
+    <tr>
+      <td class="tableleft">
+        <font size="-1"><b>{{ key.split("::")[0] }}</b>
+        </br>
+        <i>{{ key.split("::")[1] }}</i></font>
+      </td>
+      <td class="tableright">
+      {% for statement in item %}
+            <font size="-1"><code>{{ statement }}</code></font></br>
+      {% endfor %}
+
+      </td>
+    </tr>
+
+    <tr>
+      <td class="tableleft">
+        &nbsp;
+      </td>
+      <td class="tableright">
+        &nbsp;
+      </td>
+    </tr>
+
+
+    {% endfor %}
+
+
+
+
+  </table>
+
+</form>
+{% endblock %}

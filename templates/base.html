@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Satori GDPR Opt-out Tool</title>
+    <style>
+
+        .table {
+        table-layout: fixed;
+        width: 1100px;
+        }
+        nav a {
+            color: #3123DF;
+            font-size: 3em;
+            margin-left: 50px;
+            text-decoration: none;
+        }
+
+        .tableleft {
+            padding: 5px;
+            width: 300px;
+            text-align: right;
+            vertical-align: top;
+            font-family: Arial, Helvetica, sans-serif;
+            word-wrap: break-word;
+        }
+
+        .tableright {
+            padding: 5px;
+            width: 800;
+            text-align: left;
+            vertical-align: top;
+            font-family: Arial, Helvetica, sans-serif; 
+            word-wrap: break-word;             
+        }
+
+        .tableinfo {
+            width: 80;
+            text-align: left;
+            vertical-align: top;
+            font-family: Arial, Helvetica, sans-serif; 
+            word-wrap: break-word;             
+        }
+
+        .satoriresults {
+            width: 700px;
+            padding: 5px;
+            color: #0A0A0A;
+            background-color: #CBC9C9;
+            text-align: left;
+            vertical-align: top;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .satoriremediation {
+            width: 700px;
+            padding: 5px;
+            color: #660615;
+            background-color: #F9C3CB;
+            text-align: left;
+            vertical-align: top;
+            font-family: Arial, Helvetica, sans-serif;
+            word-wrap: break-word;
+        }
+
+        h1, h2, h3, h5 {
+            padding: 5px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="content">
+        {% for message in get_flashed_messages() %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+        {% block content %} {% endblock %}
+    </div>
+</body>
+</html>
