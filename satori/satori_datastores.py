@@ -16,6 +16,3 @@ def get_all_datastores(headers, apihost, satori_account_id):
 		print("EXCEPTION: ", type(err))
 	else:
 		return [ response.json()['count'], response.json()['records'] ]
-
-
-    

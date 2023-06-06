@@ -42,25 +42,25 @@ def create():
 
 		email_to_find = satori.email_to_find if satori.email_to_find else request.form['email']
 
-		satori_account_id = satori.satori_account_id if satori.satori_account_id else request.form['satori_account_id']
-		satori_serviceaccount_id = satori.satori_serviceaccount_id if satori. satori_serviceaccount_id else request.form['satori_serviceaccount_id']
-		satori_serviceaccount_key = satori.satori_serviceaccount_key if satori.satori_serviceaccount_key else request.form['satori_serviceaccount_key']
-		apihost = satori.apihost if satori.apihost else request.form['apihost']
+		satori_account_id = request.form['satori_account_id'] if request.form['satori_account_id'] else satori.satori_account_id 
+		satori_serviceaccount_id = request.form['satori_serviceaccount_id'] if request.form['satori_serviceaccount_id'] else satori. satori_serviceaccount_id 
+		satori_serviceaccount_key = request.form['satori_serviceaccount_key'] if request.form['satori_serviceaccount_key'] else satori.satori_serviceaccount_key
+		apihost = request.form['apihost'] if request.form['apihost'] else satori.apihost
+		print("using api server: " + apihost)
 
-		satori_username = satori.satori_username if satori.satori_username else request.form['satori_username']
-		satori_password = satori.satori_password if satori.satori_password else request.form['satori_password']
+		satori_username = request.form['satori_username'] if request.form['satori_username'] else satori.satori_username
+		satori_password = request.form['satori_password'] if request.form['satori_password'] else satori.satori_password
 
-		snowflake_username = satori.snowflake_username if satori.snowflake_username else request.form['snowflake_username']
-		snowflake_password = satori.snowflake_password if satori.snowflake_password else request.form['snowflake_password']
-		snowflake_account = satori.snowflake_account if satori.snowflake_account else request.form['snowflake_account']
+		snowflake_username = request.form['snowflake_username'] if request.form['snowflake_username'] else satori.snowflake_username
+		snowflake_password = request.form['snowflake_password'] if request.form['snowflake_password'] else satori.snowflake_password
+		snowflake_account = request.form['snowflake_account'] if request.form['snowflake_account'] else satori.snowflake_account
 
-		cockroachdb_username = satori.cockroachdb_username if satori.cockroachdb_username else request.form['cockroachdb_username']
-		cockroachdb_password = satori.cockroachdb_password if satori.cockroachdb_password else request.form['cockroachdb_password']
-		cockroachdb_cluster = satori.cockroachdb_cluster if satori.cockroachdb_cluster else request.form['cockroachdb_cluster']
+		cockroachdb_username = request.form['cockroachdb_username'] if request.form['cockroachdb_username'] else satori.cockroachdb_username
+		cockroachdb_password = request.form['cockroachdb_password'] if request.form['cockroachdb_password'] else satori.cockroachdb_password
+		cockroachdb_cluster = request.form['cockroachdb_cluster'] if request.form['cockroachdb_cluster'] else satori.cockroachdb_cluster
 
-		athena_results = satori.athena_results if satori.athena_results else request.form['athena_results']
-		athena_region = satori.athena_region if satori.athena_region else request.form['athena_region']
-
+		athena_results = request.form['athena_results'] if request.form['athena_results'] else satori.athena_results
+		athena_region = request.form['athena_region'] if request.form['athena_region'] else satori.athena_region
 
 		# get auth token
 		satori_token = satori_common.satori_auth(satori_serviceaccount_id, satori_serviceaccount_key, apihost)
@@ -96,9 +96,9 @@ def create():
 																	   satori_account_id, 
 																	   datastore_id)
 
-				satori_hostname = ds_entry['satoriHostname']
-				satori_displayname = ds_entry['name']
-				db_type = ds_entry['type']
+				satori_hostname = str(ds_entry['satoriHostname'])
+				satori_displayname = str(ds_entry['name'])
+				db_type = str(ds_entry['type'])
 
 				print("\nSearching " + str(found_locations[0]) + " locations for datastore " + satori_hostname + " (" + db_type + ")")
 
@@ -113,9 +113,15 @@ def create():
 								# for each location of type EMAIL, we build the following vars:
 								# dbname, table, column_name, schema, query-able location, full_location
 
-								dbname = 		location_entry['location']['db']
-								table = 		location_entry['location']['table']
-								column_name = 	location_entry['location']['column']
+								# NEED TO FINISH databricks, for now omitting
+								if db_type == 'DATABRICKS':
+									dbname = 		''
+									table = 		''
+									column_name = 	''
+								else:
+									dbname = 		location_entry['location']['db']
+									table = 		location_entry['location']['table']
+									column_name = 	location_entry['location']['column']
 
 								#some DB's don't have a concept of schema
 								if db_type in ('MARIA_DB', 'ATHENA', 'MYSQL'):

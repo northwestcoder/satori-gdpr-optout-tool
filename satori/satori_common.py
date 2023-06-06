@@ -18,5 +18,3 @@ def satori_auth(satori_serviceaccount_id, satori_serviceaccount_key, apihost):
         print("Exception TYPE:", type(err))
     else:
         return satori_token
-
-
