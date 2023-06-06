@@ -30,13 +30,15 @@ The flow and order of steps is as follows:
 
 ### Installation
 
+##### Local deployment
+
 - This is a Python Flask app. We have tried to keep the syntax as simple as possible for learning and template purposes.
 - This is _not_ considered production code. It is meant as an exploratory tool.
 - We have tested on local environments using ```python 3.11.0```
 - Basic steps:
 	- Download this repository.
 	- At a command prompt run ```pip install -r requirements.txt```
-		- This attempts to install a few different python database clients, including postgres, MSSQL, Redshift, and Snowflake. If there are any issues, these client libraries will likely be the culprit. For this same reason, we have decided not to implement this example using Docker as this would introduce too many machine/OS variables to reasonably support.
+		- This attempts to install a few different python database clients, including postgres, MSSQL, Redshift, and Snowflake. If there are any issues, these client libraries will likely be the culprit. See next Docker Deployment section for a convenient method of deployment.
 	- Run the app: ```python main.py```
 	- The app should now be running. Leave the console open and running - useful debugging output will appear when you use the web app
 	- OPTIONAL: create a brand new file "satori/satori.py" and prepopulate the following values, these will override the web form at all times. Useful for testing or for permanently assigning your various credentials.
@@ -63,6 +65,10 @@ cockroachdb_cluster = ""
 athena_results = ""
 athena_region = ""
 ```
+
+##### Docker Deployment
+
+
 
 
 
