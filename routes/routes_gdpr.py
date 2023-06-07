@@ -40,7 +40,7 @@ def create():
 
 		# look in satori/satori.py for values first, else look at web form received
 
-		email_to_find = satori.email_to_find if satori.email_to_find else request.form['email']
+		email_to_find = request.form['email'] if request.form['email'] else satori.email_to_find
 
 		satori_account_id = request.form['satori_account_id'] if request.form['satori_account_id'] else satori.satori_account_id 
 		satori_serviceaccount_id = request.form['satori_serviceaccount_id'] if request.form['satori_serviceaccount_id'] else satori. satori_serviceaccount_id 
