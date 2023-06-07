@@ -3,11 +3,12 @@ FROM python:3.11
 # Allow statements and log messages to immediately appear in the Knative logs
 ENV PYTHONUNBUFFERED True
 
-# Stuff for pyodbc to install correctly in image and run correctly in container
+# Items for pyodbc to install correctly in image and run correctly in container
 ENV ACCEPT_EULA=Y
 RUN apt-get update -y \
   && apt-get install -y --no-install-recommends curl gcc g++ gnupg unixodbc-dev
 
+# Items for pyodbc to install correctly
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
   && curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list \
   && apt-get update \

@@ -13,15 +13,21 @@ from satori import satori_remediation as remediation
 from satori import satori
 from satori import satori_query as query
 from satori import satori_query_postgres as postgres
+from satori import satori_query_mysql as mysql
+from satori import satori_query_mariadb as mariadb
 from satori import satori_query_mssql as mssql
 from satori import satori_query_athena as athena
 from satori import satori_query_cockroach as cockroachdb
 from satori import satori_query_redshift as redshift
 from satori import satori_query_snowflake as snowflake
 
+
+
 PORT_POSTGRES = "5432"
 PORT_REDSHIFT = "5439"
 PORT_COCKROACH = "26257"
+PORT_MYSQL = "12343"
+PORT_MARIADB = "12349"
 
 routes_gdprform = Blueprint('routes_gdprform', __name__)
 
@@ -58,6 +64,9 @@ def create():
 		cockroachdb_username = request.form['cockroachdb_username'] if request.form['cockroachdb_username'] else satori.cockroachdb_username
 		cockroachdb_password = request.form['cockroachdb_password'] if request.form['cockroachdb_password'] else satori.cockroachdb_password
 		cockroachdb_cluster = request.form['cockroachdb_cluster'] if request.form['cockroachdb_cluster'] else satori.cockroachdb_cluster
+
+		mariadb_username = request.form['mariadb_username'] if request.form['mariadb_username'] else satori.mariadb_username
+		mariadb_password = request.form['mariadb_password'] if request.form['mariadb_password'] else satori.mariadb_password
 
 		athena_results = request.form['athena_results'] if request.form['athena_results'] else satori.athena_results
 		athena_region = request.form['athena_region'] if request.form['athena_region'] else satori.athena_region
@@ -141,6 +150,58 @@ def create():
 									search_results = postgres.search_for_email(
 										satori_hostname, 
 										PORT_POSTGRES, 
+										dbname, 
+										query_location, 
+										satori_username, 
+										satori_password, 
+										email_to_find, 
+										column_name)
+
+									print(constants.print_querytext + search_results[0])
+
+									remediation_response = remediation.build_remediation(
+										search_results[0], 
+										query_location, 
+										column_name, 
+										email_to_find
+										)
+
+									result_items.update(
+										{full_location : [search_results[0], remediation_response]}
+										)
+
+									query_items[satori_hostname + "::" + dbname].append(search_results[1])
+
+								if db_type == 'MARIA_DB':
+									search_results = mariadb.search_for_email(
+										satori_hostname, 
+										PORT_MARIADB, 
+										dbname, 
+										query_location, 
+										mariadb_username, 
+										mariadb_password, 
+										email_to_find, 
+										column_name)
+
+									print(constants.print_querytext + search_results[0])
+
+									remediation_response = remediation.build_remediation(
+										search_results[0], 
+										query_location, 
+										column_name, 
+										email_to_find
+										)
+
+									result_items.update(
+										{full_location : [search_results[0], remediation_response]}
+										)
+
+									query_items[satori_hostname + "::" + dbname].append(search_results[1])
+
+								if db_type == 'MYSQL':
+									search_results = mysql.search_for_email(
+										satori_hostname, 
+										PORT_MYSQL, 
 										dbname, 
 										query_location, 
 										satori_username, 
@@ -311,7 +372,7 @@ def create():
 										email_to_find, 
 										column_name)
 
-									print(constants.print_noqueryresults)
+									#print(constants.print_noqueryresults)
 
 									remediation_response = remediation.build_remediation(
 										search_results[0], 
@@ -328,6 +389,7 @@ def create():
 
 								#reset the search results after each location
 								search_results = ['','']
+								remediation_response = ''
 
 			return render_template('gdpr.html', result = render_items)
 

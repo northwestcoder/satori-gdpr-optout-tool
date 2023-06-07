@@ -6,9 +6,11 @@
 If you combine the following concepts, the result is a tool for querying multiple locations across multiple datastores, searching for a specific email address.
 
 1. Satori has all of your [Datastores](https://satoricyber.com/docs/datastores/data-stores-overview/) defined.
-2. Satori provides a [username and password](https://satoricyber.com/docs/data%20portal/#data-store-temporary-credentials) for all datastores (except Snowflake, for which we provide input fields if needed).
-3. Satori has all of your sensitive emails tagged using [Satori Data Inventory](https://satoricyber.com/docs/inventory/) features.
+2. Satori provides a temp [username and password](https://satoricyber.com/docs/data%20portal/#data-store-temporary-credentials) for most datastores (except Snowflake and CockroachDB for which we provide input fields if needed).
+3. Satori has all of your sensitive email columns tagged using [Satori Data Inventory](https://satoricyber.com/docs/inventory/) features.
 4. Satori includes a [Rest API](https://app.satoricyber.com/docs/api) for finding and operating upon datastores and locations. You need a service account and service key to use the Rest API.
+
+Therefore, this tool can iterate through the entire corpus of your Satori account and query each and every email location for a desired email, e.g. ```select * from HOST.DB.SCHEMA.LOCATION where COL = 'janedoe@somedomain.com'```
 
 #### Flow
 
@@ -19,7 +21,7 @@ The flow and order of steps is as follows:
 - For each datastore
 	- The tool will gather all inventory locations, and remove any location that is not tagged EMAIL by Satori
 	- For each email found
-		- If the datastore type is supported (currently MSSQL, POSTGRES, SNOWFLAKE, ATHENA and REDSHIFT)
+		- If the datastore type is supported (currently MSSQL, MySQL, POSTGRES, SNOWFLAKE, ATHENA and REDSHIFT)
 			- The tool will query the table containing the email and return results, or return an error
 			- The tool will generate a delete statement for remediation purposes
 		- If the datastore type is not supported
@@ -38,7 +40,7 @@ The flow and order of steps is as follows:
 - Basic steps:
 	- Download this repository.
 	- At a command prompt run ```pip install -r requirements.txt```
-		- This attempts to install a few different python database clients, including Postgres, MSSQL, Redshift, Athena, CockroachDB and Snowflake. If there are any issues, these client libraries will likely be the culprit. See next section 'Docker Deployment' for a convenient method of deployment.
+		- This attempts to install a few different python database clients, including Postgres, MySQL, MSSQL, Redshift, Athena, CockroachDB and Snowflake. If there are any issues, these client libraries will likely be the culprit. See next section 'Docker Deployment' for a much more convenient method of deployment.
 	- Run the app: ```python main.py```
 	- The app should now be running. Leave the console open and running - useful debugging output will appear when you use the web app
 	- OPTIONAL: create a brand new file "satori/satori.py" and prepopulate the following values, these will override the web form at all times. Useful for testing or for permanently assigning your various credentials.
@@ -62,14 +64,17 @@ cockroachdb_username = ""
 cockroachdb_password = ""
 cockroachdb_cluster = ""
 
+mariadb_username = ""
+mariadb_password = ""
+
 athena_results = ""
 athena_region = ""
 ```
 
 ##### Docker Deployment
 
+- Have Docker Desktop installed (tested on MacOS)
 - Download this repo
-- Use Docker on your local machine, we tested with MacOS
 - Install
 	- ```docker build -t satori-gdpr-optout-tool .```
 	- ```docker run -dp 8080:8080 satori-gdpr-optout-tool```
