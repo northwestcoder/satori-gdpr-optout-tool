@@ -15,6 +15,7 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
 
 # Copy local code to the container image.
 ENV APP_HOME /app
+ENV PORT 8080
 WORKDIR $APP_HOME
 COPY . ./
 

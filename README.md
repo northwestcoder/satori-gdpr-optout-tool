@@ -74,8 +74,13 @@ athena_region = ""
 	- ```docker build -t satori-gdpr-optout-tool .```
 	- ```docker run -dp 8080:8080 satori-gdpr-optout-tool```
 
+##### GCP Cloud Run Deployment
 
-
+- Install gcloud command line tools (we have tested on macOS)
+- Log into google cloud from the command line: ```cloud auth login```
+- Set your project: ```gcloud config set project YOUR_PROJECT_ID```
+- Make sure Google Cloud Run API's are enabled for this project
+- ```gcloud run deploy```
 
 
 ### Usage
