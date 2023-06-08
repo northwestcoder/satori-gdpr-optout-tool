@@ -37,7 +37,6 @@ def create():
 	result_items = {}
 	query_items = defaultdict(list)
 	delete_items = defaultdict(list)
-	render_items = [result_items, query_items, delete_items]
 
 	if request.method == 'POST':
 
@@ -114,11 +113,17 @@ def create():
 				# For this example we are only interested in emails and email tags
 				
 				for location_entry in found_locations[1]:
+
+					#reset the search results after each location
+					search_results = ['','']
+					remediation_response = ''
+
 					tags = location_entry['tags']
 					if tags is not None:
 						for tag_item in tags:
 							if tag_item['name'] == 'EMAIL':
-								
+
+
 								# for each location of type EMAIL, we build the following vars:
 								# dbname, table, column_name, schema, query-able location, full_location
 
@@ -381,19 +386,17 @@ def create():
 										email_to_find
 										)
 
-									result_items.update(
-										{full_location : [search_results[0], remediation_response]}
-										)
+									#result_items.update(
+									#	{full_location : [search_results[0], remediation_response]}
+									#	)
 
-									query_items[satori_hostname + "::" + dbname].append(search_results[1])
+									#query_items[satori_hostname + "::" + dbname].append(search_results[1])
 
-								#reset the search results after each location
-								search_results = ['','']
-								remediation_response = ''
 
+			render_items = [result_items, query_items, delete_items]
 			return render_template('gdpr.html', result = render_items)
 
 	else:
-
+		render_items = [result_items, query_items, delete_items]
 		return render_template('gdpr.html', result = render_items)
 
