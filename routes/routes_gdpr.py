@@ -76,9 +76,7 @@ def create():
 		# minimalist error check on form input and auth token
 		if '' in (
 				satori_token, 
-				email_to_find, 
-				satori_username, 
-				satori_password):
+				email_to_find):
 			return constants.USER_PARAMS_MISSING
 
 		# else let's assume the database-specific constants are not needed and
@@ -151,7 +149,7 @@ def create():
 
 								# BEGIN MAIN DB CLIENT WORK
 
-								if db_type == 'POSTGRESQL':
+								if db_type == 'POSTGRESQL' and satori_username != '':
 									search_results = postgres.search_for_email(
 										satori_hostname, 
 										PORT_POSTGRES, 
@@ -177,7 +175,7 @@ def create():
 
 									query_items[satori_hostname + "::" + dbname].append(search_results[1])
 
-								if db_type == 'MARIA_DB':
+								if db_type == 'MARIA_DB' and mariadb_username != '':
 									search_results = mariadb.search_for_email(
 										satori_hostname, 
 										PORT_MARIADB, 
@@ -203,7 +201,7 @@ def create():
 
 									query_items[satori_hostname + "::" + dbname].append(search_results[1])
 
-								if db_type == 'MYSQL':
+								if db_type == 'MYSQL' and satori_username != '':
 									search_results = mysql.search_for_email(
 										satori_hostname, 
 										PORT_MYSQL, 
@@ -229,7 +227,7 @@ def create():
 
 									query_items[satori_hostname + "::" + dbname].append(search_results[1])
 								
-								elif db_type == 'REDSHIFT':
+								elif db_type == 'REDSHIFT' and satori_username != '':
 									search_results = redshift.search_for_email(
 										satori_hostname, 
 										PORT_REDSHIFT, 
@@ -254,7 +252,7 @@ def create():
 
 									query_items[satori_hostname + "::" + dbname].append(search_results[1])
 								
-								elif db_type == 'MSSQL':
+								elif db_type == 'MSSQL' and satori_username != '':
 									search_results = mssql.search_for_email(
 										satori_hostname,
 										dbname,
@@ -279,7 +277,7 @@ def create():
 
 									query_items[satori_hostname + "::" + dbname].append(search_results[1])
 
-								elif db_type == 'ATHENA':
+								elif db_type == 'ATHENA' and athena_results != '':
 									search_results = athena.search_for_email(
 										athena_results,
 										athena_region,
@@ -306,7 +304,7 @@ def create():
 
 									query_items[satori_hostname + "::" + dbname].append(search_results[1])
 
-								elif db_type == 'COCKROACH_DB':
+								elif db_type == 'COCKROACH_DB' and cockroachdb_username != '':
 									search_results = cockroachdb.search_for_email(
 										cockroachdb_username, 
 										cockroachdb_password, 
@@ -335,7 +333,7 @@ def create():
 
 									query_items[satori_hostname + "::" + dbname].append(search_results[1])
 
-								elif db_type == 'SNOWFLAKE':
+								elif db_type == 'SNOWFLAKE' and snowflake_username != '':
 									search_results = snowflake.search_for_email(
 										satori_hostname,
 										dbname,
@@ -364,27 +362,28 @@ def create():
 									query_items[satori_hostname + "::" + dbname].append(search_results[1])
 
 								else:
+									print("\n\nSkipping unsupported database type or database type is not needed (no user/pass provided): " + db_type + "\n\n")
 
 									#THIS IS A STUB FOR FUTURE WORK
 
-									search_results = query.search_for_email(
-										satori_hostname, 
-										"5432", 
-										dbname, 
-										query_location, 
-										satori_username, 
-										satori_password, 
-										email_to_find, 
-										column_name)
+									#search_results = query.search_for_email(
+									#	satori_hostname, 
+									#	"5432", 
+									#	dbname, 
+									#	query_location, 
+									#	satori_username, 
+									#	satori_password, 
+									#	email_to_find, 
+									#	column_name)
 
 									#print(constants.print_noqueryresults)
 
-									remediation_response = remediation.build_remediation(
-										search_results[0], 
-										query_location, 
-										column_name, 
-										email_to_find
-										)
+									#remediation_response = remediation.build_remediation(
+									#	search_results[0], 
+									#	query_location, 
+									#	column_name, 
+									#	email_to_find
+									#	)
 
 									#result_items.update(
 									#	{full_location : [search_results[0], remediation_response]}
